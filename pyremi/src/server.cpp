@@ -29,31 +29,51 @@ static pyremi_provider_t pyremi_provider_register(pymargo_instance_id mid, uint8
     else return REMIPR2CAPSULE(provider);
 }
 
-static void migration_callback(remi_fileset_t fileset, void* uargs) {
-    py11::object* fun = static_cast<py11::object*>(uargs);
+static int pre_migration_callback(remi_fileset_t fileset, void* uargs) {
+    auto fun = static_cast<std::pair<py11::object,py11::object>*>(uargs);
+    int ret = 0;
     PyGILState_STATE gstate = PyGILState_Ensure();
     try {
         auto theFileset = REMIFS2CAPSULE(fileset);
-        (*fun)(theFileset);
+        ret = py11::cast<int>((fun->first)(theFileset));
     } catch(const py11::error_already_set&) {
         PyErr_Print();
+        ret = -1;
     }
     PyGILState_Release(gstate);
+    return ret;
+}
+
+static int post_migration_callback(remi_fileset_t fileset, void* uargs) {
+    auto fun = static_cast<std::pair<py11::object,py11::object>*>(uargs);
+    int ret = 0;
+    PyGILState_STATE gstate = PyGILState_Ensure();
+    try {
+        auto theFileset = REMIFS2CAPSULE(fileset);
+        ret = py11::cast<int>((fun->second)(theFileset));
+    } catch(const py11::error_already_set&) {
+        PyErr_Print();
+        ret = -1;
+    }
+    PyGILState_Release(gstate);
+    return ret;
 }
 
 static void free_callback(void* uargs) {
-    py11::object* fun = static_cast<py11::object*>(uargs);
-    delete fun;
+    auto cbs = static_cast<std::pair<py11::object,py11::object>*>(uargs);
+    delete cbs;
 }
 
 static int pyremi_provider_register_migration_class(
         pyremi_provider_t provider,
         const std::string& class_name,
-        py11::object& cb) 
+        py11::object& pre_cb,
+        py11::object& post_cb) 
 {
-    auto cb2 = new py11::object(cb);
+    auto cbs = new std::pair<py11::object,py11::object>(pre_cb, post_cb);
     return remi_provider_register_migration_class(provider,
-            class_name.c_str(), migration_callback, free_callback, static_cast<void*>(cb2));
+            class_name.c_str(), pre_migration_callback, 
+            post_migration_callback, free_callback, static_cast<void*>(cbs));
 }
 
 PYBIND11_MODULE(_pyremiserver, m)

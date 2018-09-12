@@ -18,6 +18,7 @@ class RemiProvider(pymargo.Provider):
         super(RemiProvider, self).__init__(mid, provider_id)
         self._provider = _pyremiserver.register(mid._mid, provider_id)
 
-    def register_migration_class(self, class_name, migration_callback):
-        cb = FilesetConvertor(migration_callback)
-        return _pyremiserver.register_migration_class(self._provider, str(class_name), cb)
+    def register_migration_class(self, class_name, pre_migration_callback, post_migration_callback):
+        pre_cb = FilesetConvertor(pre_migration_callback)
+        post_cb = FilesetConvertor(post_migration_callback)
+        return _pyremiserver.register_migration_class(self._provider, str(class_name), pre_cb, post_cb)

@@ -46,12 +46,13 @@ static py11::object pyremi_migrate(
         const std::string& dest_root,
         bool remove_source) {
     int ret;
+    int status = 0;
     Py_BEGIN_ALLOW_THREADS
     int flag = remove_source ? REMI_REMOVE_SOURCE : REMI_KEEP_SOURCE;
-    ret = remi_fileset_migrate(source_ph, fileset, dest_root.c_str(), flag);
+    ret = remi_fileset_migrate(source_ph, fileset, dest_root.c_str(), flag, &status);
     Py_END_ALLOW_THREADS
     if(ret != REMI_SUCCESS) return py11::cast(false);
-    return py11::cast(true);
+    return py11::cast(status);
 }
 
 

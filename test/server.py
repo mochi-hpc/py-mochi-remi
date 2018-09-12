@@ -11,7 +11,10 @@ mid = MargoInstance('tcp')
 mid.enable_remote_shutdown()
 provider_id = 42
 
-def my_migration_callback(fileset):
+def my_pre_migration_callback(fileset):
+    print "Migration started"
+
+def my_post_migration_callback(fileset):
     print "Migration of a new fileset completed"
     print "Fileset class is "+fileset.get_class()
     print "Fileset root is "+fileset.get_root()
@@ -25,7 +28,7 @@ def my_migration_callback(fileset):
     print "===="
 
 provider = RemiProvider(mid, provider_id)
-provider.register_migration_class("my_migration_class", my_migration_callback)
+provider.register_migration_class("my_migration_class", my_pre_migration_callback, my_post_migration_callback)
 
 print "Server running at address "+str(mid.addr())+" with provider_id="+str(provider_id)
 
