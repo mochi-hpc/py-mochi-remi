@@ -24,7 +24,7 @@ typedef py11::capsule pyremi_fileset_t;
 
 static pyremi_provider_t pyremi_provider_register(pymargo_instance_id mid, uint8_t provider_id) {
     remi_provider_t provider;
-    int ret = remi_provider_register(mid, provider_id, REMI_ABT_POOL_DEFAULT, &provider);
+    int ret = remi_provider_register(mid, ABT_IO_INSTANCE_NULL, provider_id, REMI_ABT_POOL_DEFAULT, &provider);
     if(ret != 0) return py11::none();
     else return REMIPR2CAPSULE(provider);
 }

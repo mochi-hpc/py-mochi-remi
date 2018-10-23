@@ -26,7 +26,7 @@ typedef py11::capsule pyremi_fileset_t;
 
 static pyremi_client_t pyremi_client_init(pymargo_instance_id mid) {
     remi_client_t result = REMI_CLIENT_NULL;
-    remi_client_init(mid, &result);
+    remi_client_init(mid, ABT_IO_INSTANCE_NULL, &result);
     return REMICL2CAPSULE(result);
 }
 
@@ -49,7 +49,7 @@ static py11::object pyremi_migrate(
     int status = 0;
     Py_BEGIN_ALLOW_THREADS
     int flag = remove_source ? REMI_REMOVE_SOURCE : REMI_KEEP_SOURCE;
-    ret = remi_fileset_migrate(source_ph, fileset, dest_root.c_str(), flag, &status);
+    ret = remi_fileset_migrate(source_ph, fileset, dest_root.c_str(), flag, REMI_USE_MMAP, &status);
     Py_END_ALLOW_THREADS
     if(ret != REMI_SUCCESS) return py11::cast(false);
     return py11::cast(status);
