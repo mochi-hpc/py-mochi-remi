@@ -7,7 +7,7 @@ import os
 import os.path
 import sys
 
-def get_pybind11_include():
+def pybind11.get_include():
     path = os.path.dirname(pybind11.__file__)
     return '/'.join(path.split('/')[0:-4] + ['include'])
 
@@ -23,19 +23,19 @@ client_libraries    = pk['libraries']
 client_library_dirs = pk['library_dirs']
 client_include_dirs = pk['include_dirs']
 client_include_dirs.append(".")
-client_include_dirs.append(get_pybind11_include())
+client_include_dirs.append(pybind11.get_include())
 # For server...
 server_libraries    = pk['libraries']
 server_library_dirs = pk['library_dirs']
 server_include_dirs = pk['include_dirs']
 server_include_dirs.append(".")
-server_include_dirs.append(get_pybind11_include())
+server_include_dirs.append(pybind11.get_include())
 # For filesets...
 fileset_libraries    = pk['libraries']
 fileset_library_dirs = pk['library_dirs']
 fileset_include_dirs = pk['include_dirs']
 fileset_include_dirs.append('.')
-fileset_include_dirs.append(get_pybind11_include())
+fileset_include_dirs.append(pybind11.get_include())
 
 pyremi_server_module = Extension('_pyremiserver', ["pyremi/src/server.cpp"],
 		           libraries=server_libraries,
