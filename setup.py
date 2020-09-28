@@ -7,10 +7,6 @@ import os
 import os.path
 import sys
 
-def pybind11.get_include():
-    path = os.path.dirname(pybind11.__file__)
-    return '/'.join(path.split('/')[0:-4] + ['include'])
-
 (opt,) = get_config_vars('OPT')
 os.environ['OPT'] = " ".join(
 		    flag for flag in opt.split() if flag != '-Wstrict-prototypes'
