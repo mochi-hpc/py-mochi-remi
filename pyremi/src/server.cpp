@@ -17,10 +17,10 @@ typedef py11::capsule pymargo_instance_id;
 typedef py11::capsule pyremi_provider_t;
 typedef py11::capsule pyremi_fileset_t;
 
-#define MID2CAPSULE(__mid)    py11::capsule((void*)(__mid),  "margo_instance_id", nullptr)
-#define ADDR2CAPSULE(__addr)  py11::capsule((void*)(__addr), "hg_addr_t", nullptr)
-#define REMIPR2CAPSULE(__rpr) py11::capsule((void*)(__rpr),  "remi_provider_t", nullptr)
-#define REMIFS2CAPSULE(__rfs) py11::capsule((void*)(__rfs),  "remi_fileset_t", nullptr)
+#define MID2CAPSULE(__mid)    py11::capsule((void*)(__mid),  "margo_instance_id")
+#define ADDR2CAPSULE(__addr)  py11::capsule((void*)(__addr), "hg_addr_t")
+#define REMIPR2CAPSULE(__rpr) py11::capsule((void*)(__rpr),  "remi_provider_t")
+#define REMIFS2CAPSULE(__rfs) py11::capsule((void*)(__rfs),  "remi_fileset_t")
 
 static pyremi_provider_t pyremi_provider_register(pymargo_instance_id mid, uint8_t provider_id) {
     remi_provider_t provider;

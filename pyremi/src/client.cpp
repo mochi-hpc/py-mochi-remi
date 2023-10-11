@@ -18,11 +18,11 @@ typedef py11::capsule pyremi_client_t;
 typedef py11::capsule pyremi_provider_handle_t;
 typedef py11::capsule pyremi_fileset_t;
 
-#define MID2CAPSULE(__mid)    py11::capsule((void*)(__mid),  "margo_instance_id", nullptr)
-#define ADDR2CAPSULE(__addr)  py11::capsule((void*)(__addr), "hg_addr_t", nullptr)
-#define REMIPH2CAPSULE(__rph) py11::capsule((void*)(__rph),  "remi_provider_handle_t", nullptr)
-#define REMICL2CAPSULE(__rcl) py11::capsule((void*)(__rcl),  "remi_client_t", nullptr)
-#define REMIFS2CAPSULE(__rfs) py11::capsule((void*)(__rfs),  "remi_fileset_t", nullptr)
+#define MID2CAPSULE(__mid)    py11::capsule((void*)(__mid),  "margo_instance_id")
+#define ADDR2CAPSULE(__addr)  py11::capsule((void*)(__addr), "hg_addr_t")
+#define REMIPH2CAPSULE(__rph) py11::capsule((void*)(__rph),  "remi_provider_handle_t")
+#define REMICL2CAPSULE(__rcl) py11::capsule((void*)(__rcl),  "remi_client_t")
+#define REMIFS2CAPSULE(__rfs) py11::capsule((void*)(__rfs),  "remi_fileset_t")
 
 static pyremi_client_t pyremi_client_init(pymargo_instance_id mid) {
     remi_client_t result = REMI_CLIENT_NULL;
