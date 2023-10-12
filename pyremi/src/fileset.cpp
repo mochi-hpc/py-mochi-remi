@@ -14,7 +14,7 @@
 namespace py11 = pybind11;
 
 typedef py11::capsule pyremi_fileset_t;
-#define REMIFS2CAPSULE(__rfs) py11::capsule((void*)(__rfs), "remi_fileset_t", nullptr)
+#define REMIFS2CAPSULE(__rfs) py11::capsule((void*)(__rfs), "remi_fileset_t")
 
 static void fileset_files_cb(const char* filename, void* uargs) {
     if(uargs == nullptr) return;
